@@ -6,6 +6,8 @@ import spark.Request;
 import spark.Response;
 import umm3601.user.UserController;
 import umm3601.user.UserRequestHandler;
+import umm3601.todo.TodoController;
+import umm3601.todo.TodoRequestHandler;
 
 import java.io.IOException;
 
@@ -24,6 +26,9 @@ public class Server {
 
         UserController userController = new UserController(userDatabase);
         UserRequestHandler userRequestHandler = new UserRequestHandler(userController);
+
+        TodoController todoController = new TodoController(userDatabase);
+        TodoRequestHandler todoRequestHandler = new TodoRequestHandler(todoController);
 
         //Configure Spark
         port(serverPort);
