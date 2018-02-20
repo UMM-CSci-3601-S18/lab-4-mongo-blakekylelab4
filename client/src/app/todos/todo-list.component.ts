@@ -21,9 +21,6 @@ export class TodoListComponent implements OnInit {
     public todoStatus : string;
     public todoBody: string;
 
-    //For testing purposes.
-    public todoID: string;
-
     public loadReady: boolean = false;
 
     //Inject the UserListService into this component.
@@ -46,7 +43,7 @@ export class TodoListComponent implements OnInit {
     }
 
 
-    public filterTodos(searchOwner: string, searchCategory: string, searchStatus: string, searchBody: string, searchID: string): Todo[] {
+    public filterTodos(searchOwner: string, searchCategory: string, searchStatus: string, searchBody: string): Todo[] {
 
         this.filteredTodos = this.todos;
 
@@ -80,15 +77,6 @@ export class TodoListComponent implements OnInit {
             });
         }
 
-        //Filter by id
-        if (searchID != null) {
-            this.filteredTodos = this.filteredTodos.filter(todo => {
-                return !searchID || todo._id.toLowerCase().indexOf(searchID) !== -1;
-            });
-        }
-
-
-
         return this.filteredTodos;
     }
 
@@ -107,7 +95,7 @@ export class TodoListComponent implements OnInit {
         todos.subscribe(
             todos => {
                 this.todos = todos;
-                this.filterTodos(this.todoOwner, this.todoCategory, this.todoStatus, this.todoBody, this.todoID);
+                this.filterTodos(this.todoOwner, this.todoCategory, this.todoStatus, this.todoBody);
             },
             err => {
                 console.log(err);
@@ -128,7 +116,6 @@ export class TodoListComponent implements OnInit {
             }
         );
     }
-
 
     ngOnInit(): void {
         this.refreshTodos();
