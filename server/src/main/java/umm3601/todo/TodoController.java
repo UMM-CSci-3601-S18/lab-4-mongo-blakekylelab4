@@ -13,9 +13,6 @@ import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
 
-/**
- * Controller that manages requests for info about users.
- */
 public class TodoController {
 
     private final Gson gson;
@@ -23,18 +20,15 @@ public class TodoController {
     private final MongoCollection<Document> todoCollection;
 
     /**
-     * Construct a controller for todos.
+     * Construct a controller for users.
      *
-     * @param database the database containing t odo data
+     * @param database the database containing user data
      */
     public TodoController(MongoDatabase database) {
         gson = new Gson();
         this.database = database;
         todoCollection = database.getCollection("todos");
     }
-
-
-
 
     /**
      * Helper method that gets a single user specified by the `id`
@@ -44,16 +38,15 @@ public class TodoController {
      * @return the desired user as a JSON object if the user with that ID is found,
      * and `null` if no user with that ID is found
      */
-
-    public String getUser(String id) {
-        FindIterable<Document> jsonUsers
-            = userCollection
+    public String getTodo(String id) {
+        FindIterable<Document> jsonTodos
+            = todoCollection
             .find(eq("_id", new ObjectId(id)));
 
-        Iterator<Document> iterator = jsonUsers.iterator();
+        Iterator<Document> iterator = jsonTodos.iterator();
         if (iterator.hasNext()) {
-            Document user = iterator.next();
-            return user.toJson();
+            Document todo = iterator.next();
+            return todo.toJson();
         } else {
             // We didn't find the desired user
             return null;
@@ -66,64 +59,67 @@ public class TodoController {
      * is specified, then the collection is filtered so only documents of that
      * specified age are found.
      *
-     /**
      * @param queryParams
      * @return an array of Users in a JSON formatted string
      */
-    public String getUsers(Map<String, String[]> queryParams) {
+    public String getTodos(Map<String, String[]> queryParams) {
 
         Document filterDoc = new Document();
 
-        if (queryParams.containsKey("age")) {
-            int targetAge = Integer.parseInt(queryParams.get("age")[0]);
-            filterDoc = filterDoc.append("age", targetAge);
+        //Filter by Category
+        if (queryParams.containsKey("category")) {
+            String targetCategory = queryParams.get("category")[0];
+
+            Document contentRegQuery = new Document();
+            contentRegQuery.append("$regex", targetCategory);
+            contentRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("category", contentRegQuery);
         }
 
-        if (queryParams.containsKey("company")) {
-            String targetContent = (queryParams.get("company")[0]);
+        //Filter by Owner
+        if (queryParams.containsKey("owner")) {
+            String targetOwner = queryParams.get("owner")[0];
+
             Document contentRegQuery = new Document();
-            contentRegQuery.append("$regex", targetContent);
+            contentRegQuery.append("$regex", targetOwner);
             contentRegQuery.append("$options", "i");
-            filterDoc = filterDoc.append("company", contentRegQuery);
+            filterDoc = filterDoc.append("owner", contentRegQuery);
         }
 
         //FindIterable comes from mongo, Document comes from Gson
-        FindIterable<Document> matchingUsers = userCollection.find(filterDoc);
+        FindIterable<Document> matchingTodos = todoCollection.find(filterDoc);
 
-        return JSON.serialize(matchingUsers);
+        return JSON.serialize(matchingTodos);
     }
 
 
-    /**Helper method which appends received user information to the to-be added document
-     /**
+    /**
+     * Helper method which appends received user information to the to-be added document
      *
-     * @param name
-     * @param age
-     * @param company
-     * @param email
+     * @param owner
+     * @param category
+     * @param status
+     * @param body
      * @return boolean after successfully or unsuccessfully adding a user
      */
-    public boolean addNewUser(String name, int age, String company, String email) {
+    public String addNewTodo(String owner, String category, String status, String body) {
 
-        Document newUser = new Document();
-        newUser.append("name", name);
-        newUser.append("age", age);
-        newUser.append("company", company);
-        newUser.append("email", email);
+        Document newTodo = new Document();
+        newTodo.append("owner", owner);
+        newTodo.append("category", category);
+        newTodo.append("status", status);
+        newTodo.append("body", body);
 
         try {
-            userCollection.insertOne(newUser);
-        }
-        catch(MongoException me)
-        {
+            todoCollection.insertOne(newTodo);
+            ObjectId id = newTodo.getObjectId("_id");
+            System.err.println("Successfully added new todo [_id=" + id + ", owner=" + owner + ", category=" + category + " status=" + status + " body=" + body + ']');
+            // return JSON.serialize(newUser);
+            return JSON.serialize(id);
+        } catch(MongoException me) {
             me.printStackTrace();
-            return false;
+            return null;
         }
-
-        return true;
     }
-
-
-
 
 }
