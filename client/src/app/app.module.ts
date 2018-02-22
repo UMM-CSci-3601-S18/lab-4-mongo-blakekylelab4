@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
 
@@ -14,7 +14,7 @@ import {TodoListComponent} from './todos/todo-list.component';
 import {UserListService} from './users/user-list.service';
 import {TodoListService} from './todos/todo-list.service';
 import {Routing} from './app.routes';
-import {APP_BASE_HREF} from "@angular/common";
+import {APP_BASE_HREF} from '@angular/common';
 
 import {CustomModule} from "./custom.module";
 import {AddUserComponent} from "./users/add-user.component";
