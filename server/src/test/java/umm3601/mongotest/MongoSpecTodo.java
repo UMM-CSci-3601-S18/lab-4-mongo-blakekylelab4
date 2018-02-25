@@ -165,33 +165,42 @@ public class MongoSpecTodo {
         assertNull("First should not have '_id'", docs.get(0).get("_id"));
     }
 
-    //come back to this test later
+    
 
 
-//    @Test
-//    public void categoryCounts() {
-//        AggregateIterable<Document> documents
-//            = todoDocuments.aggregate(
-//            Arrays.asList(
-//                        /*
-//                         * Groups data by the "category" field, and then counts
-//                         * the number of documents with each given category.
-//                         * This creates a new "constructed document" that
-//                         * has "category" as it's "_id", and the count as the
-//                         * "categoryCount" field.
-//                         */
-//                Aggregates.group("$category",
-//                    Accumulators.sum("categoryCount", 1)),
-//                Aggregates.sort(Sorts.ascending("_id"))
-//            )
-//        );
-//        List<Document> docs = intoList(documents);
-//        assertEquals("Should be two distinct ages", 2, docs.size());
-//        assertEquals(docs.get(0).get("_id"), 25);
-//        assertEquals(docs.get(0).get("ageCount"), 1);
-//        assertEquals(docs.get(1).get("_id"), 37);
-//        assertEquals(docs.get(1).get("ageCount"), 2);
-//    }
+    @Test
+    public void categoryCounts() {
+        AggregateIterable<Document> documents
+            = todoDocuments.aggregate(
+            Arrays.asList(
+                        /*
+                         * Groups data by the "category" field, and then counts
+                         * the number of documents with each given category.
+                         * This creates a new "constructed document" that
+                            has "category" as it's "_id", and the count as the
+                         * "categoryCount" field.            *
+                         */
+                Aggregates.group("$category",
+                    Accumulators.sum("categoryCount", 1)),
+                Aggregates.sort(Sorts.ascending("_id"))
+            )
+        );
+
+
+
+
+
+        List<Document> docs = intoList(documents);
+
+        assertEquals("Should be two distinct documents", 2, docs.size());
+
+        assertEquals(docs.get(0).get("categoryCount"), 2);
+
+        assertEquals(docs.get(1).get("categoryCount"), 1);
+        assertEquals(docs.get(0).get("_id"), "homework");
+
+        assertEquals(docs.get(1).get("_id"), "software design");
+    }
 
 
 
