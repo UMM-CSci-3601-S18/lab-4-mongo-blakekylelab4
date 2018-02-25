@@ -51,12 +51,12 @@ public class TodoRequestHandler {
 
 
 
-    /**Method called from Server when the 'api/users' endpoint is received.
+    /**Method called from Server when the 'api/todos' endpoint is received.
      * This handles the request received and the response
      * that will be sent back.
      *@param req the HTTP request
      * @param res the HTTP response
-     * @return an array of users in JSON formatted String
+     * @return an array of todos in JSON formatted String
      */
     public String getTodos(Request req, Response res)
     {
