@@ -73,9 +73,8 @@ public class TodoRequestHandler {
      * @param res the HTTP response
      * @return a boolean as whether the user was added successfully or not
      */
-    public boolean addNewTodo(Request req, Response res)
+    public String addNewTodo(Request req, Response res)
     {
-
         res.type("application/json");
         Object o = JSON.parse(req.body());
         try {
@@ -85,30 +84,32 @@ public class TodoRequestHandler {
                     BasicDBObject dbO = (BasicDBObject) o;
 
                     String owner = dbO.getString("owner");
+                    //For some reason age is a string right now, caused by angular.
+                    //This is a problem and should not be this way but here ya go
                     String category = dbO.getString("category");
-                    String status = dbO.getString("status");
                     String body = dbO.getString("body");
+                    String status = dbO.getString("status");
 
-                    System.err.println("Adding new user [owner=" + owner + ", category=" + category + ", status=" + status + ", body=" + body + ']');
-                    return todoController.addNewTodo(owner, category, status, body);
+                    System.err.println("Adding new todo [owner=" + owner + ", category=" + category + " body=" + body + " status=" + status + ']');
+                    return todoController.addNewTodo(owner, category, body, status).toString();
                 }
                 catch(NullPointerException e)
                 {
                     System.err.println("A value was malformed or omitted, new user request failed.");
-                    return false;
+                    return null;
                 }
 
             }
             else
             {
                 System.err.println("Expected BasicDBObject, received " + o.getClass());
-                return false;
+                return null;
             }
         }
         catch(RuntimeException ree)
         {
             ree.printStackTrace();
-            return false;
+            return null;
         }
     }
 }

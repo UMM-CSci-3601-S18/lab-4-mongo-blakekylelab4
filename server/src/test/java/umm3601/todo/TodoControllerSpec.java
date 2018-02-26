@@ -142,9 +142,9 @@ public class TodoControllerSpec
 
     @Test
     public void addTodoTest(){
-        boolean bool = todoController.addNewTodo("Andy","homework","false", "tempor cillum");
+        String bool = todoController.addNewTodo("Andy","homework","false", "tempor cillum");
 
-        assertTrue("Add new todo should return true when todo is added,",bool);
+        assertEquals("Add new todo should return true when todo is added,", "true",bool);
         Map<String, String[]> argMap = new HashMap<>();
         argMap.put("category", new String[] { "homework" });
         String jsonResult = todoController.getTodos(argMap);

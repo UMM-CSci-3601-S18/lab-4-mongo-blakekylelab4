@@ -165,7 +165,7 @@ public class MongoSpecTodo {
         assertNull("First should not have '_id'", docs.get(0).get("_id"));
     }
 
-    
+
 
 
     @Test

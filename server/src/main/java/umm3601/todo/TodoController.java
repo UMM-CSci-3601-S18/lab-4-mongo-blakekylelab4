@@ -66,15 +66,7 @@ public class TodoController {
 
         Document filterDoc = new Document();
 
-        //Filter by Category
-        if (queryParams.containsKey("category")) {
-            String targetCategory = queryParams.get("category")[0];
 
-            Document contentRegQuery = new Document();
-            contentRegQuery.append("$regex", targetCategory);
-            contentRegQuery.append("$options", "i");
-            filterDoc = filterDoc.append("category", contentRegQuery);
-        }
 
         //Filter by Owner
         if (queryParams.containsKey("owner")) {
@@ -85,6 +77,36 @@ public class TodoController {
             contentRegQuery.append("$options", "i");
             filterDoc = filterDoc.append("owner", contentRegQuery);
         }
+        //Filter by Category
+        if (queryParams.containsKey("category")) {
+            String targetCategory = queryParams.get("category")[0];
+
+            Document contentRegQuery = new Document();
+            contentRegQuery.append("$regex", targetCategory);
+            contentRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("category", contentRegQuery);
+        }
+        //Filter by Status
+        if (queryParams.containsKey("status")) {
+            String targetCategory = queryParams.get("category")[0];
+
+            Document contentRegQuery = new Document();
+            contentRegQuery.append("$regex", targetCategory);
+            contentRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("status", contentRegQuery);
+        }
+
+        //Filter by Body
+        if (queryParams.containsKey("body")) {
+            String targetCategory = queryParams.get("category")[0];
+
+            Document contentRegQuery = new Document();
+            contentRegQuery.append("$regex", targetCategory);
+            contentRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("body", contentRegQuery);
+        }
+
+
 
         //FindIterable comes from mongo, Document comes from Gson
         FindIterable<Document> matchingTodos = todoCollection.find(filterDoc);
@@ -102,24 +124,23 @@ public class TodoController {
      * @param body
      * @return boolean after successfully or unsuccessfully adding a user
      */
-    public boolean addNewTodo(String owner, String category, String status, String body) {
+    public String addNewTodo(String owner, String category, String body, String status) {
 
         Document newTodo = new Document();
         newTodo.append("owner", owner);
         newTodo.append("category", category);
-        newTodo.append("status", status);
         newTodo.append("body", body);
+        newTodo.append("status", status);
 
         try {
             todoCollection.insertOne(newTodo);
-        }
-        catch(MongoException me)
-        {
+            ObjectId id = newTodo.getObjectId("_id");
+            System.err.println("Successfully added new todo [_id=" + id + ", owner=" + owner + ", category=" + category + " body=" + body + " status=" + status + ']');
+            // return JSON.serialize(newUser);
+            return JSON.serialize(id);
+        } catch(MongoException me) {
             me.printStackTrace();
-            return false;
+            return null;
         }
-
-        return true;
     }
-
 }

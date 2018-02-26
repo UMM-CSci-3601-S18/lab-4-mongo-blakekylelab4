@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * JUnit tests for the UserController.
@@ -38,30 +36,30 @@ public class UserControllerSpec
         userDocuments.drop();
         List<Document> testUsers = new ArrayList<>();
         testUsers.add(Document.parse("{\n" +
-                "                    name: \"Chris\",\n" +
-                "                    age: 25,\n" +
-                "                    company: \"UMM\",\n" +
-                "                    email: \"chris@this.that\"\n" +
-                "                }"));
+            "                    name: \"Chris\",\n" +
+            "                    age: 25,\n" +
+            "                    company: \"UMM\",\n" +
+            "                    email: \"chris@this.that\"\n" +
+            "                }"));
         testUsers.add(Document.parse("{\n" +
-                "                    name: \"Pat\",\n" +
-                "                    age: 37,\n" +
-                "                    company: \"IBM\",\n" +
-                "                    email: \"pat@something.com\"\n" +
-                "                }"));
+            "                    name: \"Pat\",\n" +
+            "                    age: 37,\n" +
+            "                    company: \"IBM\",\n" +
+            "                    email: \"pat@something.com\"\n" +
+            "                }"));
         testUsers.add(Document.parse("{\n" +
-                "                    name: \"Jamie\",\n" +
-                "                    age: 37,\n" +
-                "                    company: \"Frogs, Inc.\",\n" +
-                "                    email: \"jamie@frogs.com\"\n" +
-                "                }"));
+            "                    name: \"Jamie\",\n" +
+            "                    age: 37,\n" +
+            "                    company: \"Frogs, Inc.\",\n" +
+            "                    email: \"jamie@frogs.com\"\n" +
+            "                }"));
 
         samsId = new ObjectId();
         BasicDBObject sam = new BasicDBObject("_id", samsId);
         sam = sam.append("name", "Sam")
-                .append("age", 45)
-                .append("company", "Frogs, Inc.")
-                .append("email", "sam@frogs.com");
+            .append("age", 45)
+            .append("company", "Frogs, Inc.")
+            .append("email", "sam@frogs.com");
 
 
 
@@ -77,10 +75,10 @@ public class UserControllerSpec
     // http://stackoverflow.com/questions/34436952/json-parse-equivalent-in-mongo-driver-3-x-for-java
     private BsonArray parseJsonArray(String json) {
         final CodecRegistry codecRegistry
-                = CodecRegistries.fromProviders(Arrays.asList(
-                new ValueCodecProvider(),
-                new BsonValueCodecProvider(),
-                new DocumentCodecProvider()));
+            = CodecRegistries.fromProviders(Arrays.asList(
+            new ValueCodecProvider(),
+            new BsonValueCodecProvider(),
+            new DocumentCodecProvider()));
 
         JsonReader reader = new JsonReader(json);
         BsonArrayCodec arrayReader = new BsonArrayCodec(codecRegistry);
@@ -101,10 +99,10 @@ public class UserControllerSpec
 
         assertEquals("Should be 4 users", 4, docs.size());
         List<String> names = docs
-                .stream()
-                .map(UserControllerSpec::getName)
-                .sorted()
-                .collect(Collectors.toList());
+            .stream()
+            .map(UserControllerSpec::getName)
+            .sorted()
+            .collect(Collectors.toList());
         List<String> expectedNames = Arrays.asList("Chris", "Jamie", "Pat", "Sam");
         assertEquals("Names should match", expectedNames, names);
     }
@@ -118,10 +116,10 @@ public class UserControllerSpec
 
         assertEquals("Should be 2 users", 2, docs.size());
         List<String> names = docs
-                .stream()
-                .map(UserControllerSpec::getName)
-                .sorted()
-                .collect(Collectors.toList());
+            .stream()
+            .map(UserControllerSpec::getName)
+            .sorted()
+            .collect(Collectors.toList());
         List<String> expectedNames = Arrays.asList("Jamie", "Pat");
         assertEquals("Names should match", expectedNames, names);
     }
@@ -138,9 +136,9 @@ public class UserControllerSpec
 
     @Test
     public void addUserTest(){
-        boolean bool = userController.addNewUser("Brian",22,"umm", "brian@yahoo.com");
+        String newId = userController.addNewUser("Brian",22,"umm", "brian@yahoo.com");
 
-        assertTrue("Add new user should return true when user is added,",bool);
+        assertNotNull("Add new user should return true when user is added,", newId);
         Map<String, String[]> argMap = new HashMap<>();
         argMap.put("age", new String[] { "22" });
         String jsonResult = userController.getUsers(argMap);
