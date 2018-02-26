@@ -12,19 +12,20 @@
             <mat-divider></mat-divider>
             <mat-card-content>
                 <mat-form-field>
-                    <input matInput id="todoOwner" #input type="text" placeholder="Filter by owner" (input)="todoOwner = $event.target.value">
-                </mat-form-field>
-                <mat-form-field>
                     <input matInput id="todoCategory" #input type="text" placeholder="Filter by category" (input)="todoCategory = $event.target.value">
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput id="todoStatus" #input type="search" placeholder="Filter by status" [(ngModel)]="todoStatus" />
-                    <button mat-button id="statusClearSearch" type="button" *ngIf="todoStatus" matSuffix mat-icon-button aria-label="clear" (click)="todoStatus='';loadService()">
-                        <mat-icon>close</mat-icon>
-                    </button>
+                    <input matInput id="todoStatus" #input type="text" placeholder="Filter by status" (input)="todoStatus = $event.target.value">
                 </mat-form-field>
+
                 <mat-form-field>
                     <input matInput id="todoBody" #input type="text" placeholder="Filter by body" (input)="todoBody = $event.target.value">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput id="todoOwner" #input type="search" placeholder="Filter by owner" [(ngModel)]="todoOwner" />
+                    <button mat-button id="ownerClearSearch" type="button" *ngIf="todoOwner" matSuffix mat-icon-button aria-label="clear" (click)="todoOwner='';loadService()">
+                        <mat-icon>close</mat-icon>
+                    </button>
                 </mat-form-field>
                 <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
 

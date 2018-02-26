@@ -46,34 +46,34 @@ export class TodoListComponent implements OnInit {
     public filterTodos(searchOwner: string, searchCategory: string, searchStatus: string, searchBody: string): Todo[] {
 
         this.filteredTodos = this.todos;
-
-        //Filter by owner
-        if (searchOwner != null) {
-            searchOwner = searchOwner.toLocaleLowerCase();
-
-            this.filteredTodos = this.filteredTodos.filter(todo => {
-                return !searchOwner || todo.owner.toLowerCase().indexOf(searchOwner) !== -1;
-            });
-        }
+        //commited out since the server takes care of this
+        // //Filter by owner
+        // if (searchOwner != null) {
+        //     searchOwner = searchOwner.toLocaleLowerCase();
+        //
+        //     this.filteredTodos = this.filteredTodos.filter(todo => {
+        //         return !searchOwner || todo.owner.toString().toLowerCase().indexOf(searchOwner) !== -1;
+        //     });
+        // }
 
         //Filter by category
         if (searchCategory != null) {
             this.filteredTodos = this.filteredTodos.filter(todo => {
-                return !searchCategory || todo.category.toLowerCase().indexOf(searchCategory) !== -1;
+                return !searchCategory || todo.category.toString().toLowerCase().indexOf(searchCategory) !== -1;
             });
         }
 
         //Filter by status
         if (searchStatus != null) {
             this.filteredTodos = this.filteredTodos.filter(todo => {
-                return !searchStatus || todo.status.toLowerCase().indexOf(searchStatus) !== -1;
+                return !searchStatus || todo.status.toString().toLowerCase().indexOf(searchStatus) !== -1;
             });
         }
 
         //Filter by body
         if (searchBody != null) {
             this.filteredTodos = this.filteredTodos.filter(todo => {
-                return !searchBody || todo.body.toLowerCase().indexOf(searchBody) !== -1;
+                return !searchBody || todo.body.toString().toLowerCase().indexOf(searchBody) !== -1;
             });
         }
 
