@@ -78,6 +78,8 @@ public class Server {
         get("api/todos/:id", todoRequestHandler::getTodoJSON);
         post("api/todos/new", todoRequestHandler::addNewTodo);
 
+        //get("api/todoSummary", todoRequestHandler::)
+
         // An example of throwing an unhandled exception so you can see how the
         // Java Spark debugger displays errors like this.
         get("api/error", (req, res) -> {

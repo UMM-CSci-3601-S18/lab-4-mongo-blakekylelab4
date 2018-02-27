@@ -5,23 +5,24 @@
                 <mat-divider></mat-divider>
             <mat-card-content>
             <mat-form-field>
-                <input matInput #input type="text" placeholder="Owner" [(ngModel)]="newTodoOwner">
+                <input matInput #input type="text" placeholder="Owner" [(ngModel)]="data.todo.owner">
             </mat-form-field>
             <mat-form-field>
-                <input matInput #input type="text" placeholder="Category" [(ngModel)]="newTodoCategory">
+                <input matInput #input type="text" placeholder="Category" [(ngModel)]="data.todo.category">
             </mat-form-field>
+                <mat-form-field>
+                    <input matInput #input type="text" placeholder="Body" [(ngModel)]="data.todo.body">
+                </mat-form-field>
             <mat-form-field>
-                <input matInput #input type="text" placeholder="Status" [(ngModel)]="newTodoStatus">
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput #input type="text" placeholder="Body" [(ngModel)]="newTodoBody">
+                <input matInput #input type="text" placeholder="Status" [(ngModel)]="data.todo.status">
             </mat-form-field>
 
-                <button mat-raised-button color="primary" #input type="button"
-                    (click)="this.addNewTodo(newTodoOwner, newTodoCategory, newTodoStatus, newTodoBody)">Add Todo</button>
+
+                <button mat-button id="confirmAddTodoButton" [mat-dialog-close]="data.todo" type="button">Add todo</button>
+
             </mat-card-content>
         </mat-card>
-        <button mat-raised-button (click)="onNoClick()" type="button">Exit</button>
+        <button mat-raised-button id="exitWithoutAddingButton" (click)="onNoClick()" type="button">Exit</button>
     </div>
 </div>
 

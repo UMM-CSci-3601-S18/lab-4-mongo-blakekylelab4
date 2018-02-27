@@ -91,7 +91,7 @@ public class TodoRequestHandler {
                     String status = dbO.getString("status");
 
                     System.err.println("Adding new todo [owner=" + owner + ", category=" + category + " body=" + body + " status=" + status + ']');
-                    return todoController.addNewTodo(owner, category, body, status).toString();
+                    return todoController.addNewTodo(owner, status, body, body).toString();
                 }
                 catch(NullPointerException e)
                 {

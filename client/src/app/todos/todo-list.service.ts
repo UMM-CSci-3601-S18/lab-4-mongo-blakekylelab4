@@ -57,7 +57,7 @@ export class TodoListService {
 
     // remove the parameter and, if present, the &
     private removeParameter(searchParam: string) {
-        const start = this.todoUrl.indexOf(searchParam);
+        let start = this.todoUrl.indexOf(searchParam);
         let end = 0;
         if (this.todoUrl.indexOf('&') !== -1) {
             end = this.todoUrl.indexOf('&', start) + 1;

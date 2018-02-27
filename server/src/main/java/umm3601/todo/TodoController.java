@@ -128,9 +128,11 @@ public class TodoController {
 
         Document newTodo = new Document();
         newTodo.append("owner", owner);
-        newTodo.append("category", category);
-        newTodo.append("body", body);
         newTodo.append("status", status);
+        newTodo.append("body", body);
+        newTodo.append("category", category);
+
+
 
         try {
             todoCollection.insertOne(newTodo);

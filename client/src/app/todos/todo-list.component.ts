@@ -16,12 +16,13 @@ export class TodoListComponent implements OnInit {
     public todos: Todo[];
     public filteredTodos: Todo[];
 
-    public todoOwner : string;
-    public todoCategory : string;
-    public todoStatus : string;
+    public todoOwner: string;
+    public todoCategory: string;
+    public todoStatus: string;
     public todoBody: string;
 
-    public loadReady: boolean = false;
+    // The ID of the
+    private highlightedID: {'$oid': string} = { '$oid': '' };
 
     //Inject the UserListService into this component.
     //That's what happens in the following constructor.
@@ -32,14 +33,31 @@ export class TodoListComponent implements OnInit {
 
     }
 
+    isHighlighted(todo: Todo): boolean {
+        return todo._id['$oid'] === this.highlightedID['$oid'];
+    }
+
     openDialog(): void {
-        let dialogRef = this.dialog.open(AddTodoComponent, {
+        const newTodo: Todo = {_id: '', owner: '', category:'', status: '', body: ''};
+        const dialogRef = this.dialog.open(AddTodoComponent, {
             width: '500px',
+            data: { todo: newTodo }
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+            this.todoListService.addNewTodo(result).subscribe(
+                result => {
+                    this.highlightedID = result;
+                    this.refreshTodos();
+                },
+                err => {
+                    // This should probably be turned into some sort of meaningful response.
+                    console.log('There was an error adding the user.');
+                    console.log('The error was ' + JSON.stringify(err));
+                });
         });
+
+
     }
 
 
@@ -91,7 +109,7 @@ export class TodoListComponent implements OnInit {
         //Subscribe waits until the data is fully downloaded, then
         //performs an action on it (the first lambda)
 
-        let todos : Observable<Todo[]> = this.todoListService.getTodos();
+        const todos: Observable<Todo[]> = this.todoListService.getTodos();
         todos.subscribe(
             todos => {
                 this.todos = todos;
@@ -105,7 +123,7 @@ export class TodoListComponent implements OnInit {
 
 
     loadService(): void {
-        this.loadReady = true;
+
         this.todoListService.getTodos(this.todoCategory).subscribe(
             todos => {
                 this.todos = todos;
