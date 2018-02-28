@@ -18,7 +18,7 @@
                 </mat-form-field>
 
 
-                <mat-select matInput id="todoCategory"  #input placeholder="Category" (input)="todoCategory = $event.target.value">
+                <mat-select matInput id="todoCategory" [(ngModel)]="todoCategory" placeholder = "Category">
                     <mat-option>None</mat-option>
                     <mat-option value="video games"> Video Games</mat-option>
                     <mat-option value="software design"> Software Design</mat-option>
