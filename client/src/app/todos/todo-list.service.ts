@@ -45,7 +45,7 @@ export class TodoListService {
             }
 
         } else {
-            console.log("this is the endfsdfsdfsdd");
+
             // there was nothing in the box to put onto the URL... reset
             if (this.parameterPresent('category=')) {
                 let start = this.todoUrl.indexOf('category=');

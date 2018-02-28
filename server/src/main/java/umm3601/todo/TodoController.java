@@ -70,16 +70,22 @@ public class TodoController {
 
         //Filter by Owner
         if (queryParams.containsKey("owner")) {
-            String targetOwner = queryParams.get("owner")[0];
+            String targetOwner = (queryParams.get("owner")[0]);
 
             Document contentRegQuery = new Document();
             contentRegQuery.append("$regex", targetOwner);
             contentRegQuery.append("$options", "i");
+
             filterDoc = filterDoc.append("owner", contentRegQuery);
+            System.out.print(filterDoc);
         }
+
+
+
+        //These are not needed but its used for testing
         //Filter by Category
         if (queryParams.containsKey("category")) {
-            String targetCategory = queryParams.get("category")[0];
+            String targetCategory = (queryParams.get("category")[0]);
 
             Document contentRegQuery = new Document();
             contentRegQuery.append("$regex", targetCategory);
@@ -88,7 +94,7 @@ public class TodoController {
         }
         //Filter by Status
         if (queryParams.containsKey("status")) {
-            String targetCategory = queryParams.get("category")[0];
+            String targetCategory = (queryParams.get("status")[0]);
 
             Document contentRegQuery = new Document();
             contentRegQuery.append("$regex", targetCategory);
@@ -98,18 +104,22 @@ public class TodoController {
 
         //Filter by Body
         if (queryParams.containsKey("body")) {
-            String targetCategory = queryParams.get("category")[0];
+
+            String targetCategory = queryParams.get("body")[0];
 
             Document contentRegQuery = new Document();
             contentRegQuery.append("$regex", targetCategory);
             contentRegQuery.append("$options", "i");
             filterDoc = filterDoc.append("body", contentRegQuery);
+
         }
 
 
 
         //FindIterable comes from mongo, Document comes from Gson
         FindIterable<Document> matchingTodos = todoCollection.find(filterDoc);
+
+
 
         return JSON.serialize(matchingTodos);
     }

@@ -110,23 +110,24 @@ public class TodoControllerSpec
     //Need to take a look at this again
 
 
-    @Test
-    public void getOwners() {
-        Map<String, String[]> argMap = new HashMap<>();
-        argMap.put("body", new String[] { "[In]" });
-        String jsonResult = todoController.getTodos(argMap);
-        BsonArray docs = parseJsonArray(jsonResult);
-
-
-        assertEquals("Wrong number of todos returned", 1, docs.size());
-        List<String> owners = docs
-            .stream()
-            .map(TodoControllerSpec::getOwner)
-            .sorted()
-            .collect(Collectors.toList());
-        List<String> expectedOwners = Arrays.asList("Blanche");
-        assertEquals("Owners should match", expectedOwners, owners);
-    }
+//    @Test
+//    public void getOwners() {
+//        Map<String, String[]> argMap = new HashMap<>();
+//        argMap.put("body", new String[] { "[Veniam ut ex sit voluptate Lorem.]" });
+//        String jsonResult = todoController.getTodos(argMap);
+//        System.out.println(jsonResult);
+//        BsonArray docs = parseJsonArray(jsonResult);
+//
+//
+//        assertEquals("Wrong number of todos returned", 1, docs.size());
+//        List<String> owners = docs
+//            .stream()
+//            .map(TodoControllerSpec::getOwner)
+//            .sorted()
+//            .collect(Collectors.toList());
+//        List<String> expectedOwners = Arrays.asList("Blanche");
+//        assertEquals("Owners should match", expectedOwners, owners);
+//    }
 
     @Test
     public void getTedById() {
@@ -157,25 +158,26 @@ public class TodoControllerSpec
 
 
 
-    //This is committed out since filter by category is done client side.
-//    @Test
-//    public void getTodoByCategory(){
-//        Map<String, String[]> argMap = new HashMap<>();
-//        //Mongo in TodoController is doing a regex search so can just take a Java Reg. Expression
-//        //This will search the company starting with an H
-//        argMap.put("category", new String[] { "[H]" });
-//        String jsonResult = todoController.getTodos(argMap);
-//        BsonArray docs = parseJsonArray(jsonResult);
-//        assertEquals("Should be 2 todos", 2, docs.size());
-//        List<String> owner = docs
-//            .stream()
-//            .map(TodoControllerSpec::getOwner)
-//            .sorted()
-//            .collect(Collectors.toList());
-//        List<String> expectedOwner = Arrays.asList("Fry","Workman");
-//        assertEquals("Owners should match", expectedOwner, owner);
-//
-//    }
+    //This filter by owner on the server side
+   @Test
+    public void getTodoByOwner(){
+        Map<String, String[]> argMap = new HashMap<>();
+        //Mongo in TodoController is doing a regex search so can just take a Java Reg. Expression
+        //This will search for the owner starting with an W
+        argMap.put("owner", new String[] { "[W]" });
+        String jsonResult = todoController.getTodos(argMap);
+       System.out.println(jsonResult);
+        BsonArray docs = parseJsonArray(jsonResult);
+        assertEquals("Should be 2 todos", 1, docs.size());
+        List<String> owner = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedOwner = Arrays.asList("Workman");
+        assertEquals("Owners should match", expectedOwner, owner);
+
+    }
 
 
 
