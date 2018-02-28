@@ -120,7 +120,7 @@ describe('Todo list service: ', () => {
         currentlyImpossibleToGenerateSearchTodoUrl = todoListService.baseUrl +'?category=';
         todoListService['todoUrl'] = currentlyImpossibleToGenerateSearchTodoUrl;
         todoListService.filterByCategory('z');
-     
+
         expect(todoListService['todoUrl']).toEqual(todoListService.baseUrl + '?http://localhost:4567/api/todos?category=category=z&');
     });
 
