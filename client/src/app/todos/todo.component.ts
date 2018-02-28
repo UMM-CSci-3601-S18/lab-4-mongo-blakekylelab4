@@ -12,7 +12,7 @@ export class TodoComponent implements OnInit {
     private id: string;
 
     constructor(private todoListService: TodoListService) {
-        // this.users = this.userListService.getUsers();
+        // this.todos = this.todoListService.getTodos();
     }
 
     private subscribeToServiceForId() {
