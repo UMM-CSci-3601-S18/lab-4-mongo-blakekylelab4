@@ -27,10 +27,49 @@ export class TodoPage {
         return title;
     }
 
-    typeAName(name: string) {
-        let input = element(by.id('todoOwner'));
-        input.click();
-        input.sendKeys(name);
+    todoBodyClickAndGet() {
+        let elem = element.all(by.css('.accordion')).first();
+        let container = element.all(by.css('.todo')).first();
+        container.click();
+        return element.all(by.css('.todoBodyThing')).first().getText();
+    }
+
+    todoStatusClickAndGet() {
+        let elem = element.all(by.css('.accordion')).first();
+        let container = element.all(by.css('.todo')).first();
+        container.click();
+        return element.all(by.css('.todoBodyStatus')).first().getText();
+    }
+
+
+         typeABody(body: string) {
+         let input = element(by.id('todoBody'));
+         input.click();
+         input.sendKeys(body);
+     }
+//
+//     // clickExpand() {
+//     //     let input = element(by.id('todoBody'));
+//     //     input.click();
+//     //     input.sendKeys(body);
+//     // }
+//
+//     clickAndSubmitOwner() {
+//         let selectButton = element(by.id('submit'));
+//         selectButton.click();
+//     }
+//
+//     clickAddTodoButton(): promise.Promise<void> {
+//         this.highlightElement(by.id('addNewTodo'));
+//         return element(by.id('addNewTodo')).click();
+//     }
+//
+    getTodos() {
+
+        element.all(by.css('todos')).then(function(todos) {
+            expect(todos.length).toBe(2);
+
+        });
     }
 
     selectUpKey() {
@@ -49,32 +88,38 @@ export class TodoPage {
         browser.actions().sendKeys(Key.BACK_SPACE).perform();
     }
 
-    getCompany(company:string){
-        let input = element(by.id('userCompany'));
-        input.click();
-        input.sendKeys(company);
-        let selectButton = element(by.id('submit'));
-        selectButton.click();
-    }
 
     getTodoByCategory() {
         let input = element(by.id('todoCategory'));
         input.click();
     }
 
-    getUniqueTodo(id:string) {
-        let todo = element(by.id(id)).getText();
-        this.highlightElement(by.id(id));
+    clickInput() {
+        element(by.css('mat-radio-inner-circle')).click();
+    }
+
+    getUniqueTodo(_id: string) {
+        let todo = element(by.id(_id)).getText();
+        this.highlightElement(by.id(_id));
 
         return todo;
     }
-
-    getUsers() {
-        return element.all(by.className('users'));
-    }
-
-    clickClearCompanySearch() {
-        let input = element(by.id('companyClearSearch'));
+//
+//
+    selectComplete() {
+        let input = element(by.id('complete'));
         input.click();
     }
-}
+    selectSubmit() {
+        let input = element(by.id('sub'));
+        input.click();
+    }
+    selectInComplete() {
+        let input = element(by.id('incomplete'));
+        input.click();
+    }
+    selectboth() {
+        let input = element(by.id('both'));
+        input.click();
+//     }
+ }

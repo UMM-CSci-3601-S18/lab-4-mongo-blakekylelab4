@@ -70,4 +70,11 @@ export class UserPage {
         let input = element(by.id('companyClearSearch'));
         input.click();
     }
+
+    test() {
+        element.all(by.css('.items li')).then(function(items) {
+            expect(items.length).toBe(3);
+            expect(items[0].getText()).toBe('First');
+        });
+    }
 }

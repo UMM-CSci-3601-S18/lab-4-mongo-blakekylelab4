@@ -58,7 +58,7 @@ export class TodoListComponent implements OnInit {
 
         //Filter by category
         if (searchCategory != null) {
-            console.log("here");
+
             this.filteredTodos = this.filteredTodos.filter(todo => {
                 return !searchCategory || todo.category.toString().toLowerCase().indexOf(searchCategory) !== -1;
             });
