@@ -12,12 +12,6 @@
             <mat-divider></mat-divider>
             <mat-card-content>
 
-
-                <mat-form-field>
-                    <input matInput id="todoStatus" #input type="text" placeholder="Filter by status" (input)="todoStatus = $event.target.value">
-                </mat-form-field>
-
-
                 <mat-select matInput id="todoCategory" [(ngModel)]="todoCategory" placeholder = "Category">
                     <mat-option>None</mat-option>
                     <mat-option value="video games"> Video Games</mat-option>
@@ -26,6 +20,11 @@
                     <mat-option value="homework"> Homework</mat-option>
                 </mat-select>
 
+                <mat-radio-group matInput id = "todoStatus" [(ngModel)]="todoStatus">
+                    <mat-radio-button value="true">Complete</mat-radio-button>
+                    <mat-radio-button value="false">Incomplete</mat-radio-button>
+                    <mat-radio-button value="">Both</mat-radio-button>
+                </mat-radio-group>
 
                 <mat-form-field>
                     <input matInput id="todoBody" #input type="text" placeholder="Filter by body" (input)="todoBody = $event.target.value">
