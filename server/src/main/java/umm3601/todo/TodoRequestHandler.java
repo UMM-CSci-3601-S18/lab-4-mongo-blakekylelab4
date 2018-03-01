@@ -64,6 +64,12 @@ public class TodoRequestHandler {
         return todoController.getTodos(req.queryMap().toMap());
     }
 
+    public String getTodoSummary(Request req, Response res) {
+
+
+        return todoController.getTodoSummary();
+    }
+
 
     /**Method called from Server when the 'api/users/new'endpoint is recieved.
      * Gets specified user info from request and calls addNewUser helper method
@@ -91,7 +97,7 @@ public class TodoRequestHandler {
                     String status = dbO.getString("status");
 
                     System.err.println("Adding new todo [owner=" + owner + ", category=" + category + " body=" + body + " status=" + status + ']');
-                    return todoController.addNewTodo(owner, category, body, status).toString();
+                    return todoController.addNewTodo(owner, status, body, body).toString();
                 }
                 catch(NullPointerException e)
                 {
