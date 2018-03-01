@@ -117,6 +117,19 @@ export class TodoListComponent implements OnInit {
         );
     }
 
+    loadOwnerService():void{
+        this.loadReady = true;
+        this.todoListService.getTodosByOwner(this.todoOwner).subscribe(
+            todos => {
+                this.todos = todos;
+                this.filteredTodos = this.todos;
+            },
+            err => {
+                console.log(err);
+            }
+        );
+    }
+
     ngOnInit(): void {
         this.refreshTodos();
         this.loadService();

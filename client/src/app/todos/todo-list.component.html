@@ -31,11 +31,11 @@
                 </mat-form-field>
                 <mat-form-field>
                     <input matInput id="todoOwner" #input type="search" placeholder="Filter by owner" [(ngModel)]="todoOwner" />
-                    <button mat-button id="ownerClearSearch" type="button" *ngIf="todoOwner" matSuffix mat-icon-button aria-label="clear" (click)="todoOwner='';loadService()">
+                    <button mat-button id="ownerClearSearch" type="button" *ngIf="todoOwner" matSuffix mat-icon-button aria-label="clear" (click)="todoOwner='';loadOwnerService()">
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
-                <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
+                <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadOwnerService()">Submit</button>
 
                 <mat-accordion *ngIf="todos; else todosError" >
                     <mat-expansion-panel #elem class="todos" [id]="todo._id" *ngFor="let todo of this.filterTodos(todoOwner, todoCategory, todoStatus, todoBody)">
