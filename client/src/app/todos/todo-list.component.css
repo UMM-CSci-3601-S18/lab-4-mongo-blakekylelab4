@@ -12,3 +12,37 @@
     padding-right: 14px;
 }
 
+.mat-card mat-card-content {
+  padding: 16px;
+}
+
+#todo-list-title{
+  text-align: center;
+  font-size: 200%;
+  color: white;
+}
+/* sssss*/
+.mat-card {
+  background: #90EE90;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.mat-card mat-card-title {
+  padding-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  background-color: #32CD32;
+}
+
+content, .mat-card-subtitle, .mat-card-title {
+  display: block;
+  margin-bottom: 0px;
+}
+
+.mat-input-container mat-form-field{
+  color: green;
+}
+.mat-expansion-panel:hover {
+  background: #c3e4ea;
+}
