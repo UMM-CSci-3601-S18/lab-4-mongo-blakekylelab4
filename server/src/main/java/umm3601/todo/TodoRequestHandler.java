@@ -64,11 +64,11 @@ public class TodoRequestHandler {
         return todoController.getTodos(req.queryMap().toMap());
     }
 
-//    public String getTodoSummary(Request req, Response res) {
-//
-//        res.type("application/json");
-//        return.getTodos(req.queryMap().toMap());
-//    }
+    public String getTodoSummary(Request req, Response res) {
+
+
+        return todoController.getTodoSummary();
+    }
 
 
     /**Method called from Server when the 'api/users/new'endpoint is recieved.

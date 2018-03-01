@@ -155,6 +155,12 @@ public class TodoControllerSpec
             .collect(Collectors.toList());
         assertEquals("Should return the owner of new todo", "Andy", owner.get(0));
     }
+    @Test
+    public void todoSummaryTest(){
+        String bool = todoController.getTodoSummary();
+
+    }
+
 
 
 
@@ -166,7 +172,7 @@ public class TodoControllerSpec
         //This will search for the owner starting with an W
         argMap.put("owner", new String[] { "[W]" });
         String jsonResult = todoController.getTodos(argMap);
-       System.out.println(jsonResult);
+
         BsonArray docs = parseJsonArray(jsonResult);
         assertEquals("Should be 2 todos", 1, docs.size());
         List<String> owner = docs
