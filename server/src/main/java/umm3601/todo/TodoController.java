@@ -147,7 +147,7 @@ public class TodoController  {
 
 
 
-            docs.add(new Document("owner", next.getString("_id")).append("percentageComplete",(next.getInteger("percentageCompleteOwner")/count)*percent ).append("subtotal",next.getInteger("subtotal") )
+            docs.add(new Document("owner", next.getString("_id")).append("percentageComplete",(next.getInteger("percentageCompleteOwner")/count)*percent ).append("owners with status complete",next.getInteger("subtotal") )
             );
 
         }
@@ -158,7 +158,7 @@ public class TodoController  {
 
 
 
-            docs.add(new Document("category", next.getString("_id")).append("percentageComplete",(next.getInteger("percentageCompleteCategory")/count) *percent ).append("subtotal",next.getInteger("subtotal") )
+            docs.add(new Document("category", next.getString("_id")).append("percentageComplete",(next.getInteger("percentageCompleteCategory")/count) *percent ).append("categories with status complete",next.getInteger("subtotal") )
             );
         }
 
