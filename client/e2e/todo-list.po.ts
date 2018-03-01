@@ -33,6 +33,11 @@ export class TodoPage {
         container.click();
         return element.all(by.css('.todoBodyThing')).first().getText();
     }
+    clickButton() {
+        let elem = element.all(by.css('.accordion')).first();
+        let container = element.all(by.css('.todo')).first();
+        container.click();
+    }
 
     todoStatusClickAndGet() {
         let elem = element.all(by.css('.accordion')).first();
@@ -42,11 +47,12 @@ export class TodoPage {
     }
 
 
-         typeABody(body: string) {
-         let input = element(by.id('todoBody'));
-         input.click();
-         input.sendKeys(body);
-     }
+    typeABody(body: string) {
+        let input = element(by.id('todoBody'));
+        input.click();
+        input.sendKeys(body);
+    }
+
 //
 //     // clickExpand() {
 //     //     let input = element(by.id('todoBody'));
@@ -65,26 +71,22 @@ export class TodoPage {
 //     }
 //
     getTodos() {
-
-        element.all(by.css('todos')).then(function(todos) {
-            expect(todos.length).toBe(2);
-
-        });
+        return element.all(by.className('todos'));
     }
 
     selectUpKey() {
         browser.actions().sendKeys(Key.ARROW_UP).perform();
     }
 
-    selectDownKey(){
+    selectDownKey() {
         browser.actions().sendKeys(Key.ARROW_DOWN).perform();
     }
 
-    enter(){
+    enter() {
         browser.actions().sendKeys(Key.ENTER).perform();
     }
 
-    backspace(){
+    backspace() {
         browser.actions().sendKeys(Key.BACK_SPACE).perform();
     }
 
@@ -104,22 +106,36 @@ export class TodoPage {
 
         return todo;
     }
-//
-//
+
+
     selectComplete() {
         let input = element(by.id('complete'));
         input.click();
     }
+
     selectSubmit() {
         let input = element(by.id('sub'));
         input.click();
     }
+
     selectInComplete() {
         let input = element(by.id('incomplete'));
         input.click();
     }
+
     selectboth() {
         let input = element(by.id('both'));
         input.click();
 //     }
- }
+    }
+    getOwner(owner:string){
+        let input = element(by.id('todoOwner'));
+        input.click();
+        input.sendKeys(owner);
+        let selectButton = element(by.id('submit'));
+        selectButton.click();
+        let elem = element.all(by.css('.accordion')).first();
+        let container = element.all(by.css('.todo')).first();
+        container.click();
+    }
+}

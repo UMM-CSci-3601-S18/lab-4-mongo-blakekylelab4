@@ -25,10 +25,10 @@ describe('Todo list', () => {
         page = new TodoPage();
     });
 
-    it('should get and highlight Todos title attribute ', () => {
-        page.navigateTo();
-        expect(page.getTodoTitle()).toEqual('Todos');
-    });
+    // it('should get and highlight Todos title attribute ', () => {
+    //     page.navigateTo();
+    //     expect(page.getTodoTitle()).toEqual('Todos');
+    // });
 
     // it('should type something in filter owner box, click submit and check that it returned correct element', () => {
     //     page.navigateTo();
@@ -40,35 +40,7 @@ describe('Todo list', () => {
     // //    // expect(page.getUniqueUser("lynnferguson@niquent.com")).toEqual("Lynn Ferguson");
     //  });
 
-    // it('should click complete, and check for a unique todo', () => {
-    //     page.navigateTo();
-    //
-    //     page.selectComplete();
-    //     expect(page.getUniqueTodo("58af3a600343927e48e87211")).toEqual("Fry");
-    //     //page.backspace();
-    //     //page.typeAName("lynn");
-    //     // expect(page.getUniqueUser("lynnferguson@niquent.com")).toEqual("Lynn Ferguson");
-    // });
-    //
-    // it('should click incomplete, and check for a unique todo', () => {
-    //     page.navigateTo();
-    //
-    //     page.selectInComplete();
-    //     expect(page.getUniqueTodo("58af3a600343927e48e87210")).toEqual("Fry");
-    //     //page.backspace();
-    //     //page.typeAName("lynn");
-    //     // expect(page.getUniqueUser("lynnferguson@niquent.com")).toEqual("Lynn Ferguson");
-    // });
-    //
-    // it('should click both, and check for a unique todo', () => {
-    //     page.navigateTo();
-    //     page.selectboth();
-    //     expect(page.getUniqueTodo("58af3a600343927e48e87211")).toEqual("Fry");
-    //     //page.backspace();
-    //     //page.typeAName("lynn");
-    //     // expect(page.getUniqueUser("lynnferguson@niquent.com")).toEqual("Lynn Ferguson");
-    // });
-    //
+
 
 
     it('should type in the body and check that an element contains that search element', () =>{
@@ -77,7 +49,13 @@ describe('Todo list', () => {
        expect(page.todoBodyClickAndGet()).toContain('Ipsum');
     });
 
-    // it('should type in the body and check that an element contains that search element', () =>{
+
+    it("Should allow us to filter users based on company", ()=>{
+        page.navigateTo();
+        page.getOwner("Fry");
+        page.getTodos();
+
+        // it('should type in the body and check that an element contains that search element', () =>{
     //     page.navigateTo();
     //     page.selectComplete();
     //
@@ -157,4 +135,4 @@ describe('Todo list', () => {
     //         expect(users.length).toBe(3);
     //     });
     // })
-});
+})});

@@ -79,10 +79,10 @@ public class TodoController  {
     public String getTodoSummary() {
 
     ArrayList<Document> docs = new ArrayList<>();
-        Document doc = new Document();
+
 
         float count = todoCollection.count();
-        float percent = 100/count;
+        float percent = 100;
 
 
 
@@ -126,18 +126,20 @@ public class TodoController  {
         MongoCursor<Document> cat_iterator = subCategory.iterator();
 
         Document summary = new Document();
+
         summary.append("Total number of Todos", count);
         docs.add(summary);
 
         while (_sub_iterator .hasNext()) {
-            Document next = _sub_iterator .next();
+            Document next = _sub_iterator.next();
 
 
 
-            docs.add(new Document("Statusvalue", next.getBoolean("_id")).append("percentageComplete",(next.getInteger("percentageStatusComplete")/count) ).append("subtotal",next.getInteger("subtotal") )
+            docs.add(new Document("TodoComplete", next.getInteger("subtotal")).append("percentageComplete",((next.getInteger("percentageStatusComplete")/count)*percent) )
             );
-
         }
+
+
 
 
         while (owner_iterator.hasNext()) {
@@ -145,7 +147,7 @@ public class TodoController  {
 
 
 
-            docs.add(new Document("owner", next.getString("_id")).append("percentageComplete",(next.getInteger("percentageCompleteOwner")/count) ).append("subtotal",next.getInteger("subtotal") )
+            docs.add(new Document("owner", next.getString("_id")).append("percentageComplete",(next.getInteger("percentageCompleteOwner")/count)*percent ).append("subtotal",next.getInteger("subtotal") )
             );
 
         }
@@ -156,141 +158,56 @@ public class TodoController  {
 
 
 
-            docs.add(new Document("owner", next.getString("_id")).append("percentageComplete",(next.getInteger("percentageCompleteCategory")/count) ).append("subtotal",next.getInteger("subtotal") )
+            docs.add(new Document("category", next.getString("_id")).append("percentageComplete",(next.getInteger("percentageCompleteCategory")/count) *percent ).append("subtotal",next.getInteger("subtotal") )
             );
         }
-       // System.out.print(JSON.serialize(summary));
-//        Document summaryDoc = new Document();
-//        for(int i =0; i < docs.size(); i++) {
-//            summaryDoc.append("Total Todos Complete", )
-//
-//        }
 
-//        //count the subtotals of the owners
-//        AggregateIterable<Document> subOwner = todoCollection.aggregate(
-//            Arrays.asList(
-//                Aggregates.group("$owner", Accumulators.sum("count", 1))
-//            )
-//        );
-//
-//        //filterByowner with status being true
-//        AggregateIterable<Document> finOwner = todoCollection.aggregate(
-//            Arrays.asList(
-//                Aggregates.match(Filters.eq("status", "true")),
-//                Aggregates.group("$owner", Accumulators.sum("count", 1))
-//
-//
-//
-//            ));
-//
-//        System.out.println(JSON.serialize(finOwner));
-//        AggregateIterable<Document> catOwner = todoCollection.aggregate(
-//            Arrays.asList(
-//                Aggregates.match(Filters.eq("category", "homework")),
-//                Aggregates.group("$owner", Accumulators.sum("count", 1),
-//                    Accumulators.sum("percent", percent))
-//
-//            )
-//        );
-//        System.out.println(JSON.serialize(catOwner));
-//
-//        AggregateIterable<Document> bodyOwner = todoCollection.aggregate(
-//            Arrays.asList(
-//                Aggregates.match(Filters.eq("body", "sunt")),
-//                Aggregates.group("$owner", Accumulators.sum("count", 1),
-//                    Accumulators.sum("percent", percent))
-//            )
-//        );
 
-//        //Document summary = new Document("percentToDosComplete:", );
+        return  JSON.serialize(docs);
+    }
+
 //
-//        //I am aware that doing this can lose data, but we are working with a small dataset.
-//        total1 = new Long(todoCollection.count());
-//        //Total number of todos
-//       total = total1.floatValue();
-//
-//
-//       //grabbing all completed todos
-//        AggregateIterable<Document> CompleteStatus = todoCollection.aggregate(
+//    public String summaryHelper(String paramName, String valueName, boolean status, float grandTotal) {
+//        String total = null;
+//        float percentage = 100;
+//        float subTotal;
+//        AggregateIterable<Document> toReturn;
+//        String stringToReturn;
+//        toReturn = todoCollection.aggregate(
 //            Arrays.asList(
-//                Aggregates.match(Filters.eq("status", "true")),
-//                Aggregates.group("$status" , Accumulators.sum("count", 1)
-//                    )
-//            ));
-//
-//        AggregateIterable<Document>   toReturn = todoCollection.aggregate(
-//            Arrays.asList(
-//                Aggregates.match(Filters.eq("status", String.valueOf(true))),
-//                Aggregates.group("status", Accumulators.sum("count", 1)),
+//                Aggregates.match(Filters.eq("status", String.valueOf(status))),
+//                Aggregates.group(paramName, Accumulators.sum( valueName, 1)),
 //                Aggregates.project(
 //                    Projections.fields(
-//                        Projections.excludeId()
-//
+//                        Projections.excludeId(),
+//                        Projections.exclude(paramName)
 //
 //
 //                    )
 //                )
 //            )
 //        );
+//        MongoCursor<Document> toreturn_iterator = toReturn.iterator();
 //
-//            System.out.println(JSON.serialize(toReturn));
+//        while (toreturn_iterator.hasNext()) {
+//            Document next = toreturn_iterator.next();
+//             total = next.getString(valueName);
 //
-//        MongoCursor<Document> status_iterator = CompleteStatus.iterator();
+//            break;
 //
-//        while (status_iterator.hasNext()) {
-//            Document next = status_iterator.next();
-//          System.out.println(next.getString("_id"));
-//            System.out.println(next.getInteger("count"));
 //
 //        }
-
-
-
-        return  JSON.serialize(docs);
-    }
-
-
-    public String summaryHelper(String paramName, String valueName, boolean status, float grandTotal) {
-        String total = null;
-        float percentage = 100;
-        float subTotal;
-        AggregateIterable<Document> toReturn;
-        String stringToReturn;
-        toReturn = todoCollection.aggregate(
-            Arrays.asList(
-                Aggregates.match(Filters.eq("status", String.valueOf(status))),
-                Aggregates.group(paramName, Accumulators.sum( valueName, 1)),
-                Aggregates.project(
-                    Projections.fields(
-                        Projections.excludeId(),
-                        Projections.exclude(paramName)
-
-
-                    )
-                )
-            )
-        );
-        MongoCursor<Document> toreturn_iterator = toReturn.iterator();
-
-        while (toreturn_iterator.hasNext()) {
-            Document next = toreturn_iterator.next();
-             total = next.getString(valueName);
-
-            break;
-
-
-        }
-
-       subTotal = (Float.valueOf(total)/grandTotal)*percentage;
-
-
-
-
-        stringToReturn = JSON.serialize(toReturn.first());
-        System.out.println(stringToReturn);
-        return stringToReturn;
-
-    }
+//
+//       subTotal = (Float.valueOf(total)/grandTotal)*percentage;
+//
+//
+//
+//
+//        stringToReturn = JSON.serialize(toReturn.first());
+//        System.out.println(stringToReturn);
+//        return stringToReturn;
+//
+//    }
     /** Helper method which iterates through the collection, receiving all
      * documents if no query parameter is specified. If the age query parameter
      * is specified, then the collection is filtered so only documents of that
